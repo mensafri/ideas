@@ -13,6 +13,7 @@
                 <form action="{{ route('ideas.destroy', $idea->id) }}" method="POST">
                     @csrf
                     @method('delete')
+                    <a class="mx-2" href="{{ route('ideas.edit', $idea->id) }}">Edit</a>
                     <a href="{{ route('ideas.show', $idea->id) }}">View</a>
                     <button class="ms-1 btn btn-danger btn-sm">X</button>
                 </form>
@@ -20,17 +21,33 @@
         </div>
     </div>
     <div class="card-body">
-        <p class="fs-6 fw-light text-muted">
-            {{ $idea->content }}
-        </p>
+        @if ($editing ?? false)
+            <form action="{{ route('ideas.update', $idea->id) }}" method="post">
+                @csrf
+                @method('put')
+                <div class="mb-3">
+                    <textarea class="form-control" id="content" name="content" rows="3">{{ $idea->content }}</textarea>
+                    @error('content')
+                        <span class="fs-6 text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="">
+                    <button class="btn btn-dark mb-2" type="submit"> Edit </button>
+                </div>
+            </form>
+        @else
+            <p class="fs-6 fw-light text-muted">
+                {{ $idea->content }}
+            </p>
+        @endif
         <div class="d-flex justify-content-between">
             <div>
                 <a href="#" class="fw-light nav-link fs-6"> <span class="fas fa-heart me-1">
-                    </span> 100 </a>
+                    </span> {{ $idea->likes }} </a>
             </div>
             <div>
                 <span class="fs-6 fw-light text-muted"> <span class="fas fa-clock"> </span>
-                    3-5-2023 </span>
+                    {{ $idea->updated_at }} </span>
             </div>
         </div>
         <div>

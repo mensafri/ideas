@@ -32,11 +32,11 @@ class IdeasController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'idea' => 'required|min:5|max:250'
+            'content' => 'required|min:5|max:250'
         ]);
         $ideas = new Ideas(
             [
-                'content' => $request->get('idea'),
+                'content' => $request->get('content'),
             ]
         );
         $ideas->save();
@@ -54,17 +54,23 @@ class IdeasController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Ideas $id)
+    public function edit(Ideas $idea)
     {
-        //
+        $editing = true;
+        return view('ideas.show', compact('idea', 'editing'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Ideas $id)
+    public function update(Request $request, Ideas $idea)
     {
-        //
+        $request->validate([
+            'content' => 'required|min:5|max:250'
+        ]);
+        $idea->content = $request->input('content');
+        $idea->save();
+        return redirect()->route('ideas.show', $idea->id)->with('success', 'Idea Sukses Diedit');
     }
 
     /**
