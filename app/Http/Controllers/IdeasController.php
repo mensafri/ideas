@@ -14,7 +14,7 @@ class IdeasController extends Controller
     {
         $list_ideas = Ideas::query()->orderBy('created_at', 'DESC')->paginate(2);
         return view('dashboard', [
-            'list_ideas' => $list_ideas
+            'ideas' => $list_ideas
         ]);
     }
 
@@ -46,15 +46,15 @@ class IdeasController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Ideas $idea)
     {
-        //
+        return view('ideas.show', compact('idea'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Ideas $id)
     {
         //
     }
@@ -62,7 +62,7 @@ class IdeasController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Ideas $id)
     {
         //
     }
@@ -70,8 +70,9 @@ class IdeasController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Ideas $idea)
     {
-        //
+        $idea->delete();
+        return redirect('/')->with('success', 'Ideas Berhasil Dihapus');
     }
 }

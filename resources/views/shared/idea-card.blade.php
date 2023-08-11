@@ -9,11 +9,19 @@
                         </a></h5>
                 </div>
             </div>
+            <div>
+                <form action="{{ route('ideas.destroy', $idea->id) }}" method="POST">
+                    @csrf
+                    @method('delete')
+                    <a href="{{ route('ideas.show', $idea->id) }}">View</a>
+                    <button class="ms-1 btn btn-danger btn-sm">X</button>
+                </form>
+            </div>
         </div>
     </div>
     <div class="card-body">
         <p class="fs-6 fw-light text-muted">
-            {{ $ideas->content }}
+            {{ $idea->content }}
         </p>
         <div class="d-flex justify-content-between">
             <div>
