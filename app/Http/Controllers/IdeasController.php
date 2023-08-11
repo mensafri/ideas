@@ -12,9 +12,12 @@ class IdeasController extends Controller
      */
     public function index()
     {
-        $list_ideas = Ideas::query()->orderBy('created_at', 'DESC')->paginate(2);
+        $list_ideas = Ideas::query()->orderBy('created_at', 'DESC');
+        if (request()->has('search')) {
+            $list_ideas = $list_ideas->where('content', 'like', '%' . request()->get('search') . '%');
+        }
         return view('dashboard', [
-            'ideas' => $list_ideas
+            'ideas' => $list_ideas->paginate(2)
         ]);
     }
 
