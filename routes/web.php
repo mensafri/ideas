@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\IdeasController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,4 +16,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::resource('/ideas', IdeasController::class);
+Route::resource('/comment', CommentController::class);
 Route::get('/', [IdeasController::class, 'index']);
