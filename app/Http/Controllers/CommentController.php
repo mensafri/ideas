@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
+use App\Models\Ideas;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -25,9 +27,16 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Ideas $idea)
     {
-        //
+        request()->validate([
+            'content' => 'required|min:5|max:250'
+        ]);
+        $comment = new Comment;
+        $comment->idea_id = $idea->id;
+        $comment->content = request()->get('content');
+        $comment->save();
+        return redirect()->route('ideas.show', $idea->id)->with('success', 'Comment Berhasil Dibuat');
     }
 
     /**

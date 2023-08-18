@@ -32,17 +32,12 @@ class IdeasController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store()
     {
-        $request->validate([
+        $validated = request()->validate([
             'content' => 'required|min:5|max:250'
         ]);
-        $ideas = new Ideas(
-            [
-                'content' => $request->get('content'),
-            ]
-        );
-        $ideas->save();
+        Ideas::create($validated);
         return redirect('/')->with('success', 'Idea Sukses Dibuat');
     }
 

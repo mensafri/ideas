@@ -16,5 +16,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::resource('/ideas', IdeasController::class);
-Route::resource('/comment', CommentController::class);
 Route::get('/', [IdeasController::class, 'index']);
+Route::post('ideas/{idea}/comments', [CommentController::class, 'store'])
+    ->name('ideas.comments.store');
