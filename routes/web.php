@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\IdeasController;
 use Illuminate\Support\Facades\Route;
@@ -17,5 +18,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::resource('/ideas', IdeasController::class);
 Route::get('/', [IdeasController::class, 'index']);
+
+Route::get('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/register', [AuthController::class, 'store']);
+
+Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/login', [AuthController::class, 'authenticate']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
 Route::post('ideas/{idea}/comments', [CommentController::class, 'store'])
     ->name('ideas.comments.store');
